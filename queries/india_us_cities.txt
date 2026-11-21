@@ -1,0 +1,48 @@
+# India — mix of tier-1 and tier-2 cities
+restaurants in Mumbai
+hotels in Delhi
+hospitals in Bangalore
+gyms in Chennai
+cafes in Hyderabad
+dentists in Pune
+lawyers in Kolkata
+pharmacies in Ahmedabad
+schools in Jaipur
+plumbers in Surat
+electricians in Lucknow
+car repair in Kanpur
+beauty salons in Nagpur
+travel agents in Indore
+accountants in Bhopal
+restaurants in Coimbatore
+hotels in Visakhapatnam
+gyms in Patna
+pharmacies in Vadodara
+dentists in Ludhiana
+
+# United States — major metro areas
+restaurants in New York
+hotels in Los Angeles
+hospitals in Chicago
+gyms in Houston
+cafes in Phoenix
+dentists in Philadelphia
+lawyers in San Antonio
+pharmacies in San Diego
+schools in Dallas
+plumbers in San Jose
+electricians in Austin
+car repair in Jacksonville
+beauty salons in Fort Worth
+travel agents in Columbus
+accountants in Charlotte
+restaurants in Indianapolis
+hotels in San Francisco
+gyms in Seattle
+pharmacies in Denver
+dentists in Nashville
+restaurants in Boston
+hotels in Las Vegas
+hospitals in Miami
+gyms in Atlanta
+cafes in Minneapolis

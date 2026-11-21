@@ -1,0 +1,26 @@
+# Offline verification / smoke test — local network, no proxy
+[run]
+id = "smoke_local"
+country = "US"
+query_panel = "queries/panel_us.csv"
+depth_pages = 1
+quota_cap_mb = 100
+stop_block_rate = 0.5
+stop_proxy_error_rate = 0.5
+seed = 42
+output_dir = "results"
+max_parallel_sessions = 1
+rate_limit_rps = 0.0
+ip_probe_every = 0
+witness_mode = "dual"
+enrich = false
+
+[[arms]]
+name = "smoke_local"
+kind = "block_onset"
+pool = "local"
+country = "US"
+sessions = 1
+requests_per_session = 2
+depth_pages = 1
+stop_on_block = true

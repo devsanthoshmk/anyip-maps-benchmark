@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+
+# uv — keep uv.lock in version control, ignore the venv
+.venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Results (large CSVs / JSONs — commit summaries manually if needed)
+results/
+
+# Old over-engineered code, kept for reference only
+_archived/
+
+# Generated local files
+.pytest_cache/
+node_modules/
+.next/
+*.tsbuildinfo
+
+# macOS
+.DS_Store
+
+_archived/

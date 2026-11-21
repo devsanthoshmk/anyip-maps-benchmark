@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>First residential benchmark | AnyIP × Google Maps</title>
+  <meta name="description" content="Aggregate results, limitations, and offline evidence for the first AnyIP residential Google Maps benchmark.">
+  <link rel="stylesheet" href="report.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to report</a>
+  <header class="mast wrap">
+    <a class="brand" href="../../README.md">AnyIP <span>×</span> Google Maps</a>
+    <nav aria-label="Report sections"><a href="#results">Results</a><a href="#limits">Limitations</a><a href="#evidence">Evidence</a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="title">
+      <div class="intro">
+        <p class="edition"><span>Benchmark 01</span> <time datetime="2026-11-21">21 November 2026</time></p>
+        <h1 id="title">First residential benchmark</h1>
+        <p class="deck">85 of 100 Google Maps queries succeeded in one residential proxy run. India returned 44 successful queries and the United States returned 41, from 50 observed in each country.</p>
+      </div>
+      <figure class="sample">
+        <figcaption>Successful queries <span>One cell per observed query</span></figcaption>
+        <div class="sample-row"><div><b>India</b><span>44 / 50</span></div><div class="strip" style="--filled:88%" aria-hidden="true"></div></div>
+        <div class="sample-row"><div><b>United States</b><span>41 / 50</span></div><div class="strip" style="--filled:82%" aria-hidden="true"></div></div>
+        <p class="key"><span></span> Successful <span></span> Not successful</p>
+      </figure>
+    </section>
+
+    <div class="summary wrap">
+      <dl>
+        <div><dt>Successful queries</dt><dd>85%</dd><dd class="note">95% CI: 76.7–90.7%</dd></div>
+        <div><dt>Places returned</dt><dd>3,489</dd><dd class="note">3,483 valid records</dd></div>
+        <div><dt>HTTP attempts</dt><dd>294</dd><dd class="note">5 blocked (1.7%; 95% CI: 0.7–3.9%)</dd></div>
+        <div><dt>Estimated wire traffic</dt><dd>17.953 MiB</dd><dd class="note">Not provider billing</dd></div>
+      </dl>
+    </div>
+
+    <section class="chapter wrap" id="results" aria-labelledby="results-title">
+      <header><h2 id="results-title">Country results</h2><p>Country counts describe query outcomes, not individual HTTP attempts.</p></header>
+      <div class="table-wrap">
+        <table aria-labelledby="results-title">
+          <thead><tr><td>Measure</td><th scope="col">India (IN)</th><th scope="col">United States (US)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Successful / observed queries</th><td>44 / 50 (88%)</td><td>41 / 50 (82%)</td></tr>
+            <tr><th scope="row">Places returned</th><td>1,758</td><td>1,731</td></tr>
+            <tr><th scope="row">Consent outcomes</th><td>0</td><td>0</td></tr>
+            <tr><th scope="row">HTTP 403 outcomes</th><td>0</td><td>0</td></tr>
+            <tr><th scope="row">HTTP 429 outcomes</th><td>0</td><td>0</td></tr>
+            <tr><th scope="row">Mean successful-query latency</th><td>1,831.4 ms</td><td>1,499.5 ms</td></tr>
+            <tr><th scope="row">Estimated wire traffic</th><td>8.935 MiB</td><td>9.019 MiB</td></tr>
+            <tr><th scope="row">Witness IP matched / changed / unknown</th><td>47 / 1 / 2</td><td>49 / 0 / 1</td></tr>
+            <tr><th scope="row">Estimated cost per successful proxy query</th><td>Not available</td><td>Not available</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">The IP comparison uses exit-IP witness observations, not the IP seen by Google Maps. Traffic totals are independently rounded. No price was configured.</p>
+    </section>
+
+    <section class="chapter wrap" aria-labelledby="repeat-title">
+      <header><h2 id="repeat-title">How similar were repeat results?</h2><p>Repeats with the same observed IP had higher measured similarity across all four metrics. This comparison includes only pairs with comparable ranked outputs.</p></header>
+      <div class="table-wrap">
+        <table aria-labelledby="repeat-title" aria-describedby="repeat-note">
+          <thead><tr><td>Measure</td><th scope="col">New IP</th><th scope="col">Same IP</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Comparable pairs</th><td>30</td><td>13</td></tr>
+            <tr><th scope="row">Jaccard@20</th><td>0.641 [0.571, 0.711]</td><td>0.839 [0.735, 0.931]</td></tr>
+            <tr><th scope="row">Jaccard@40</th><td>0.662 [0.596, 0.728]</td><td>0.850 [0.751, 0.936]</td></tr>
+            <tr><th scope="row">Rank-biased overlap (p = 0.9)</th><td>0.705 [0.626, 0.781]</td><td>0.870 [0.763, 0.959]</td></tr>
+            <tr><th scope="row">Kendall’s τ<sub>b</sub></th><td>0.699 [0.609, 0.785]</td><td>0.838 [0.707, 0.954]</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" id="repeat-note">Brackets show 95% percentile bootstrap intervals (10,000 iterations). The comparison excluded 7 empty and 4 failed or incomplete new-IP pairs, and 2 empty and 2 failed or incomplete same-IP pairs.</p>
+    </section>
+
+    <div class="end wrap">
+      <section id="limits" aria-labelledby="limits-title">
+        <h2 id="limits-title">What this run can’t tell us</h2>
+        <p>One completed run covered 100 sessions and 100 queries in about 9 minutes 18 seconds. Small samples limit precision and do not establish a country effect. The overall success interval uses the Wilson score method.</p>
+        <ul class="limits">
+          <li><b>No session lifetime.</b> The run observed one exit IP in 87% of witnessed sessions but did not measure exit-IP TTL or first-block timing in a dedicated cohort.</li>
+          <li><b>No pool or load comparison.</b> Only residential proxies were measured. The run does not establish concurrency capacity or how mobile, mixed, or local traffic would compare.</li>
+          <li><b>Witnesses have limits.</b> IPv4 and IPv6 witness probes add about 2 KB per query, and a witness observation cannot confirm what IP the destination saw.</li>
+          <li><b>Challenge handling is limited.</b> The HTTP client cannot solve dynamic reCAPTCHA challenges.</li>
+        </ul>
+      </section>
+      <aside id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Evidence</h2>
+        <p>Use the companion files to inspect the published aggregates and verify them offline.</p>
+        <ul>
+          <li><a href="README.md">Read the report notes <small>README.md</small></a></li>
+          <li><a href="evidence.json">Inspect the evidence <small>evidence.json</small></a></li>
+          <li><a href="verify.py">Get the offline verifier <small>verify.py</small></a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+  <footer class="wrap">AnyIP × Google Maps benchmark <span>Residential pool only</span></footer>
+</body>
+</html>

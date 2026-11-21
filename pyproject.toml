@@ -1,0 +1,32 @@
+[project]
+name = "gmap-bench"
+version = "0.2.0"
+description = "AnyIP proxy benchmark for Google Maps scraping"
+requires-python = ">=3.11"
+
+dependencies = [
+    "aiohttp>=3.9.0",
+    "brotli>=1.1.0",
+    "rich>=13.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+bench = "bench:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["_archived", "ui", "node_modules", ".venv", "results"]
+addopts = "-q"

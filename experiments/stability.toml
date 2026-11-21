@@ -1,0 +1,116 @@
+# Full Matrix Benchmark — Stability, Block Onset, Result Variance, Load, and Pool Comparison
+# DO NOT RUN BY DEFAULT: requires substantial proxy quota (~1-2 GB) and 1-2 hours runtime.
+#
+# Estimated Requests & Traffic (dry-run is authoritative):
+# 1. TTL residential: 30 sessions * (30 min / 30s + 1 = 61 probes) * 2 witnesses = 3,660 probes (~3.6 MB)
+# 2. TTL mobile:      15 sessions * 61 probes * 2 = 1,830 probes (~1.8 MB)
+# 3. Block residential: 20 sessions * 150 requests = 3,000 Google requests (~150 MB)
+# 4. Block mobile:      15 sessions * 150 requests = 2,250 Google requests (~112 MB)
+# 5. Variance: 10 queries * (3 same + 3 new + 2 local) * 2 pages = 160 Google requests (~8 MB)
+# 6. Load: 4 levels * 5-40 sessions * 20 reqs = 3,000 Google requests (~144 MB)
+# 7. Pool compare: 10 queries * 4 pools * 2 pages = 80 Google requests (~4 MB)
+# Total dry-run estimate: ~8,500 Google requests + ~5,500 probes, ~430-450 MB wire.
+# This is an IN-only first pass. Do not add US until the IN run is reviewed.
+
+[run]
+id = "stability_full"
+country = "IN"
+query_panel = "queries/panel_all.csv"
+depth_pages = 2
+quota_cap_mb = 500
+stop_block_rate = 0.5
+stop_proxy_error_rate = 0.5
+seed = 42
+output_dir = "results"
+max_parallel_sessions = 5
+rate_limit_rps = 2.0
+ip_probe_every = 5
+witness_mode = "dual"
+enrich = true
+
+# Arm 1a: TTL Stability, residential (Exit IP continuity over 30 minutes)
+[[arms]]
+name = "ttl_residential"
+kind = "ttl"
+pool = "residential"
+country = "IN"
+sessions = 30
+sesstime_min = 20
+duration_min = 30.0
+probe_interval_s = 30.0
+
+# Arm 1b: TTL Stability, mobile (same duration, separate pool)
+[[arms]]
+name = "ttl_mobile"
+kind = "ttl"
+pool = "mobile"
+country = "IN"
+sessions = 15
+sesstime_min = 20
+duration_min = 30.0
+probe_interval_s = 30.0
+
+# Arm 2a: Block Onset, residential
+[[arms]]
+name = "block_residential"
+kind = "block_onset"
+pool = "residential"
+country = "IN"
+sessions = 20
+requests_per_session = 150
+depth_pages = 2
+concurrency_per_session = 1
+strict_replace = false
+stop_on_block = true
+
+# Arm 2b: Block Onset, mobile
+[[arms]]
+name = "block_mobile"
+kind = "block_onset"
+pool = "mobile"
+country = "IN"
+sessions = 15
+requests_per_session = 150
+depth_pages = 2
+concurrency_per_session = 1
+strict_replace = false
+stop_on_block = true
+
+# Arm 3: Result Variance (Rank similarity across same IP vs new IP vs local)
+[[arms]]
+name = "result_variance"
+kind = "variance"
+pool = "residential"
+country = "IN"
+sessions = 10
+depth_pages = 2
+queries_per_session = 10
+same_ip_repeats = 3
+new_ip_repeats = 3
+local_repeats = 2
+repeat_delay_s = 60.0
+include_local = true
+
+# Arm 4: Load Testing (Throughput and error rate scaling across session counts and concurrencies)
+[[arms]]
+name = "load_matrix"
+kind = "load"
+pool = "residential"
+country = "IN"
+sessions = 10
+depth_pages = 1
+requests_per_session = 20
+duration_min = 10.0
+load_levels = [5, 10, 20, 40]
+load_concurrency = [2, 5]
+
+# Arm 5: Pool Comparison (Head-to-head metrics: residential vs mobile vs mixed vs local)
+[[arms]]
+name = "pool_comparison"
+kind = "pool_compare"
+country = "IN"
+sessions = 10
+depth_pages = 2
+queries_per_session = 10
+pools = ["residential", "mobile", "mixed", "local"]
+include_local = true

@@ -1,0 +1,4 @@
+# Minimal set for a quick connectivity / proxy check (no proxy required)
+restaurants in Mumbai
+cafes in New York
+hotels in Bangalore

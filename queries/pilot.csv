@@ -1,0 +1,4 @@
+query,country,city,expected_min_results,category
+restaurants in Mumbai,IN,Mumbai,10,restaurants
+hotels in Delhi,IN,Delhi,10,hotels
+hospitals in Bangalore,IN,Bangalore,10,hospitals

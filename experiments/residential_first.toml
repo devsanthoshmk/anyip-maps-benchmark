@@ -1,0 +1,38 @@
+# First-results plan. No direct Google traffic and no load or block-onset stress.
+[run]
+id = "residential_first"
+country = "IN"
+query_panel = "queries/panel_all.csv"
+depth_pages = 2
+quota_cap_mb = 100
+# Set price_usd_per_gb to your quoted rate for an estimated cost per successful proxy query.
+# Leave it unset during the trial if you do not have a production quote.
+rate_limit_rps = 2.0
+witness_mode = "dual"
+enrich = false
+
+[[arms]]
+name = "residential_variance_in"
+kind = "variance"
+pool = "residential"
+country = "IN"
+queries_per_session = 10
+sesstime_min = 20
+same_ip_repeats = 2
+new_ip_repeats = 3
+repeat_delay_s = 60
+parallel_variance_queries = 5
+include_local = false
+
+[[arms]]
+name = "residential_variance_us"
+kind = "variance"
+pool = "residential"
+country = "US"
+queries_per_session = 10
+sesstime_min = 20
+same_ip_repeats = 2
+new_ip_repeats = 3
+repeat_delay_s = 60
+parallel_variance_queries = 5
+include_local = false

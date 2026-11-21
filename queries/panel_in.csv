@@ -1,0 +1,21 @@
+query,country,city,expected_min_results,category
+restaurants in Mumbai,IN,Mumbai,10,restaurants
+hotels in Delhi,IN,Delhi,10,hotels
+hospitals in Bangalore,IN,Bangalore,10,hospitals
+gyms in Chennai,IN,Chennai,10,gyms
+cafes in Hyderabad,IN,Hyderabad,10,cafes
+dentists in Pune,IN,Pune,10,dentists
+lawyers in Kolkata,IN,Kolkata,10,lawyers
+pharmacies in Ahmedabad,IN,Ahmedabad,10,pharmacies
+schools in Jaipur,IN,Jaipur,10,schools
+plumbers in Surat,IN,Surat,10,plumbers
+electricians in Lucknow,IN,Lucknow,10,electricians
+car repair in Kanpur,IN,Kanpur,10,car repair
+beauty salons in Nagpur,IN,Nagpur,10,beauty salons
+travel agents in Indore,IN,Indore,10,travel agents
+accountants in Bhopal,IN,Bhopal,10,accountants
+restaurants in Coimbatore,IN,Coimbatore,10,restaurants
+hotels in Visakhapatnam,IN,Visakhapatnam,10,hotels
+gyms in Patna,IN,Patna,10,gyms
+pharmacies in Vadodara,IN,Vadodara,10,pharmacies
+dentists in Ludhiana,IN,Ludhiana,10,dentists

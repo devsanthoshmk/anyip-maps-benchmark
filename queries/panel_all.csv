@@ -1,0 +1,46 @@
+query,country,city,expected_min_results,category
+restaurants in Mumbai,IN,Mumbai,10,restaurants
+hotels in Delhi,IN,Delhi,10,hotels
+hospitals in Bangalore,IN,Bangalore,10,hospitals
+gyms in Chennai,IN,Chennai,10,gyms
+cafes in Hyderabad,IN,Hyderabad,10,cafes
+dentists in Pune,IN,Pune,10,dentists
+lawyers in Kolkata,IN,Kolkata,10,lawyers
+pharmacies in Ahmedabad,IN,Ahmedabad,10,pharmacies
+schools in Jaipur,IN,Jaipur,10,schools
+plumbers in Surat,IN,Surat,10,plumbers
+electricians in Lucknow,IN,Lucknow,10,electricians
+car repair in Kanpur,IN,Kanpur,10,car repair
+beauty salons in Nagpur,IN,Nagpur,10,beauty salons
+travel agents in Indore,IN,Indore,10,travel agents
+accountants in Bhopal,IN,Bhopal,10,accountants
+restaurants in Coimbatore,IN,Coimbatore,10,restaurants
+hotels in Visakhapatnam,IN,Visakhapatnam,10,hotels
+gyms in Patna,IN,Patna,10,gyms
+pharmacies in Vadodara,IN,Vadodara,10,pharmacies
+dentists in Ludhiana,IN,Ludhiana,10,dentists
+restaurants in New York,US,New York,10,restaurants
+hotels in Los Angeles,US,Los Angeles,10,hotels
+hospitals in Chicago,US,Chicago,10,hospitals
+gyms in Houston,US,Houston,10,gyms
+cafes in Phoenix,US,Phoenix,10,cafes
+dentists in Philadelphia,US,Philadelphia,10,dentists
+lawyers in San Antonio,US,San Antonio,10,lawyers
+pharmacies in San Diego,US,San Diego,10,pharmacies
+schools in Dallas,US,Dallas,10,schools
+plumbers in San Jose,US,San Jose,10,plumbers
+electricians in Austin,US,Austin,10,electricians
+car repair in Jacksonville,US,Jacksonville,10,car repair
+beauty salons in Fort Worth,US,Fort Worth,10,beauty salons
+travel agents in Columbus,US,Columbus,10,travel agents
+accountants in Charlotte,US,Charlotte,10,accountants
+restaurants in Indianapolis,US,Indianapolis,10,restaurants
+hotels in San Francisco,US,San Francisco,10,hotels
+gyms in Seattle,US,Seattle,10,gyms
+pharmacies in Denver,US,Denver,10,pharmacies
+dentists in Nashville,US,Nashville,10,dentists
+restaurants in Boston,US,Boston,10,restaurants
+hotels in Las Vegas,US,Las Vegas,10,hotels
+hospitals in Miami,US,Miami,10,hospitals
+gyms in Atlanta,US,Atlanta,10,gyms
+cafes in Minneapolis,US,Minneapolis,10,cafes

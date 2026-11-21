@@ -1,0 +1,52 @@
+# Pilot benchmark run — small sample size to verify full pipeline
+[run]
+id = "pilot"
+country = "IN"
+query_panel = "queries/pilot.csv"
+depth_pages = 1
+quota_cap_mb = 100
+stop_block_rate = 0.5
+stop_proxy_error_rate = 0.5
+seed = 42
+output_dir = "results"
+max_parallel_sessions = 2
+rate_limit_rps = 0.0
+ip_probe_every = 0
+witness_mode = "dual"
+enrich = false
+
+# Arm 1: TTL Pilot (no Google traffic, dual exit IP probes)
+[[arms]]
+name = "ttl_pilot"
+kind = "ttl"
+pool = "residential"
+country = "IN"
+sessions = 2
+sesstime_min = 1
+duration_min = 2.0
+probe_interval_s = 20.0
+
+# Arm 2: Block Onset Pilot (Google Maps requests until block or quota)
+[[arms]]
+name = "block_pilot"
+kind = "block_onset"
+pool = "residential"
+country = "IN"
+sessions = 2
+requests_per_session = 5
+depth_pages = 1
+strict_replace = false
+stop_on_block = true
+
+# Arm 3: Variance Pilot (same-IP vs new-IP rank variation)
+[[arms]]
+name = "variance_pilot"
+kind = "variance"
+pool = "residential"
+country = "IN"
+sessions = 1
+depth_pages = 1
+queries_per_session = 1
+same_ip_repeats = 2
+new_ip_repeats = 2
+repeat_delay_s = 2.0

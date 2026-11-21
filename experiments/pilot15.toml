@@ -1,0 +1,99 @@
+# 10-15 minute all-arm validation pilot. Small samples, real proxy, all five arm types.
+[run]
+id = "pilot15"
+country = "IN"
+query_panel = "queries/pilot.csv"
+depth_pages = 2
+quota_cap_mb = 100
+stop_block_rate = 0.5
+stop_proxy_error_rate = 0.5
+seed = 42
+output_dir = "results"
+max_parallel_sessions = 4
+rate_limit_rps = 2.0
+ip_probe_every = 5
+witness_mode = "dual"
+enrich = false
+
+# TTL: residential and mobile separately, 5 minutes
+[[arms]]
+name = "ttl_res_pilot"
+kind = "ttl"
+pool = "residential"
+country = "IN"
+sessions = 3
+sesstime_min = 5
+duration_min = 5.0
+probe_interval_s = 30.0
+
+[[arms]]
+name = "ttl_mobile_pilot"
+kind = "ttl"
+pool = "mobile"
+country = "IN"
+sessions = 2
+sesstime_min = 5
+duration_min = 5.0
+probe_interval_s = 30.0
+
+# Block onset: residential and mobile separately
+[[arms]]
+name = "block_res_pilot"
+kind = "block_onset"
+pool = "residential"
+country = "IN"
+sessions = 3
+requests_per_session = 40
+depth_pages = 2
+strict_replace = false
+stop_on_block = true
+
+[[arms]]
+name = "block_mobile_pilot"
+kind = "block_onset"
+pool = "mobile"
+country = "IN"
+sessions = 2
+requests_per_session = 30
+depth_pages = 2
+strict_replace = false
+stop_on_block = true
+
+# Variance: same IP vs new IP vs local
+[[arms]]
+name = "variance_pilot15"
+kind = "variance"
+pool = "residential"
+country = "IN"
+sessions = 1
+depth_pages = 2
+queries_per_session = 2
+same_ip_repeats = 2
+new_ip_repeats = 2
+local_repeats = 2
+include_local = true
+repeat_delay_s = 5.0
+
+# Load: two levels, low concurrency, short
+[[arms]]
+name = "load_pilot15"
+kind = "load"
+pool = "residential"
+country = "IN"
+sessions = 2
+depth_pages = 1
+requests_per_session = 8
+duration_min = 2.0
+load_levels = [2, 4]
+load_concurrency = [2]
+
+# Pool comparison, small
+[[arms]]
+name = "pool_pilot15"
+kind = "pool_compare"
+country = "IN"
+sessions = 1
+depth_pages = 1
+queries_per_session = 2
+pools = ["residential", "mobile", "local"]
+include_local = true
