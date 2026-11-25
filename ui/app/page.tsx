@@ -27,6 +27,42 @@ function resolveRelativeUrl(baseUrl: string, relativePath: string): string {
   }
 }
 
+function getInitialRunId(runs: RunIndexItem[]): string {
+  if (typeof window === 'undefined' || !runs.length) return runs[0]?.id || '';
+
+  const params = new URLSearchParams(window.location.search);
+  const benchParam = params.get('bench') || params.get('run');
+  if (benchParam) {
+    const matched = runs.find(
+      (r) =>
+        String(r.number) === benchParam ||
+        r.id === benchParam ||
+        r.path.includes(benchParam)
+    );
+    if (matched) return matched.id;
+  }
+
+  const hash = window.location.hash.replace(/^#\/?/, '').replace(/^bench-?/, '');
+  if (hash) {
+    const matched = runs.find(
+      (r) =>
+        String(r.number) === hash ||
+        r.id === hash ||
+        r.path.includes(hash)
+    );
+    if (matched) return matched.id;
+  }
+
+  const pathMatch = window.location.pathname.match(/\/(?:bench\/)?(\d+)\/?$/);
+  if (pathMatch) {
+    const benchNum = pathMatch[1];
+    const matched = runs.find((r) => String(r.number) === benchNum);
+    if (matched) return matched.id;
+  }
+
+  return runs[0].id;
+}
+
 function getCountryName(code: string): string {
   const names: Record<string, string> = {
     IN: 'India',
@@ -65,7 +101,7 @@ export default function BenchmarkPage() {
       if (data.runs && data.runs.length > 0) {
         setSelectedRunId((prev) => {
           if (prev && data.runs.some((r) => r.id === prev)) return prev;
-          return data.runs[0].id;
+          return getInitialRunId(data.runs);
         });
       }
     } catch (err: any) {
@@ -111,6 +147,37 @@ export default function BenchmarkPage() {
   const activeRunItem = useMemo(() => {
     return manifest?.runs?.find((r) => r.id === selectedRunId) || null;
   }, [manifest, selectedRunId]);
+
+  const handleSelectRun = useCallback((runItem: RunIndexItem) => {
+    setSelectedRunId(runItem.id);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      const benchRef = runItem.number !== undefined ? String(runItem.number) : runItem.id;
+      url.searchParams.set('bench', benchRef);
+      window.history.pushState({ runId: runItem.id }, '', url.toString());
+    }
+  }, []);
+
+  useEffect(() => {
+    const onLocationChange = () => {
+      if (!manifest?.runs?.length) return;
+      const targetId = getInitialRunId(manifest.runs);
+      if (targetId && targetId !== selectedRunId) {
+        setSelectedRunId(targetId);
+      }
+    };
+    window.addEventListener('popstate', onLocationChange);
+    window.addEventListener('hashchange', onLocationChange);
+    return () => {
+      window.removeEventListener('popstate', onLocationChange);
+      window.removeEventListener('hashchange', onLocationChange);
+    };
+  }, [manifest, selectedRunId]);
+
+  const rankedRuns = useMemo(() => {
+    if (!manifest?.runs) return [];
+    return [...manifest.runs].sort((a, b) => (b.number ?? 0) - (a.number ?? 0));
+  }, [manifest]);
 
   // Core metrics derived directly from run data
   const stats = useMemo(() => {
@@ -234,7 +301,10 @@ export default function BenchmarkPage() {
                 <select
                   id="run-select"
                   value={selectedRunId || ''}
-                  onChange={(e) => setSelectedRunId(e.target.value)}
+                  onChange={(e) => {
+                    const item = manifest.runs.find((r) => r.id === e.target.value);
+                    if (item) handleSelectRun(item);
+                  }}
                   className="min-w-0 max-w-full bg-[#17181c] border border-[#262930] text-[#eeeff2] text-xs rounded px-2 py-1 focus:border-[#3b82f6] outline-none"
                 >
                   {manifest.runs.map((r) => (
@@ -617,6 +687,110 @@ export default function BenchmarkPage() {
                 </div>
               </div>
             </section>
+
+            {/* Benchmark References & Ranked Index */}
+            {manifest?.runs && manifest.runs.length > 0 && (
+              <section className="pt-6 border-t border-[#262930] space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <div>
+                    <h2 className="text-sm font-semibold text-[#eeeff2] tracking-tight">
+                      Benchmark references
+                    </h2>
+                    <p className="text-xs text-[#8a8f9c] mt-0.5">
+                      Published benchmark runs and reproducible telemetry datasets.
+                    </p>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#5a5e6b]">
+                    {manifest.runs.length} {manifest.runs.length === 1 ? 'benchmark' : 'benchmarks'}
+                  </span>
+                </div>
+
+                <div className="space-y-2 pt-1">
+                  {rankedRuns.map((r, index) => {
+                    const isActive = r.id === selectedRunId;
+                    const benchNum = r.number ?? (rankedRuns.length - index);
+                    const refPath = `/${benchNum}`;
+
+                    return (
+                      <div
+                        key={r.id}
+                        className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded border transition-colors ${
+                          isActive
+                            ? 'bg-[#17181c] border-[#3b82f6]/40 ring-1 ring-[#3b82f6]/20'
+                            : 'bg-[#131418] border-[#22242a] hover:border-[#2f323a]'
+                        }`}
+                      >
+                        <div className="flex items-start sm:items-center gap-3 min-w-0">
+                          {/* Reference citation badge */}
+                          <a
+                            href={`?bench=${benchNum}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleSelectRun(r);
+                            }}
+                            className="flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-mono font-medium shrink-0 bg-[#1c1e24] text-[#eeeff2] hover:bg-[#252830] transition-colors"
+                            title={`Load Benchmark ${benchNum}`}
+                          >
+                            <span className="text-[#3b82f6]">[{benchNum}]</span>
+                            <span className="text-[#8a8f9c]">{refPath}</span>
+                          </a>
+
+                          {/* Title & metadata */}
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={`?bench=${benchNum}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleSelectRun(r);
+                                }}
+                                className="text-xs font-medium text-[#eeeff2] hover:text-[#3b82f6] transition-colors truncate"
+                              >
+                                {r.title || `Benchmark ${benchNum}`}
+                              </a>
+                              {isActive && (
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 shrink-0">
+                                  <span className="h-1 w-1 rounded-full bg-emerald-400" />
+                                  Active
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[11px] font-mono text-[#5a5e6b] truncate mt-0.5">
+                              ID: {r.id}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-3 text-xs shrink-0 pl-9 sm:pl-0">
+                          <a
+                            href={resolveRelativeUrl(MANIFEST_URL, r.path)}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-[#8a8f9c] hover:text-[#eeeff2] text-[11px] font-mono underline underline-offset-2 transition-colors"
+                            title="View raw JSON dataset"
+                          >
+                            raw json ↗
+                          </a>
+                          {!isActive ? (
+                            <button
+                              onClick={() => handleSelectRun(r)}
+                              className="px-2.5 py-1 text-xs font-mono rounded bg-[#1c1e24] border border-[#272930] text-[#eeeff2] hover:border-[#3b82f6] hover:text-[#3b82f6] transition-colors"
+                            >
+                              Load telemetry
+                            </button>
+                          ) : (
+                            <span className="text-[11px] font-mono text-[#8a8f9c] px-2 py-1">
+                              Loaded
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
           </>
         )}
       </main>
