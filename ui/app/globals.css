@@ -4,21 +4,67 @@
 
 :root {
   color-scheme: dark;
+  /* Editorial typography system - Zero remote build dependencies */
+  --font-editorial: "Charter", "Bitstream Charter", "Sitka Text", "Cambria", "Iowan Old Style", "New York", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-ui-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", "SF Pro Text", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono-data: ui-monospace, "SF Mono", "Geist Mono", "JetBrains Mono", "Cascadia Code", "Fira Code", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 body {
   background-color: #101114;
   color: #eeeff2;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-editorial);
   margin: 0;
   padding: 0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Authoritative editorial headings with optical kerning */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-editorial);
+  text-rendering: optimizeLegibility;
+}
+
+/* UI chrome, interactive controls and navigation remain crisp and functional */
+nav,
+select,
+button,
+input,
+option {
+  font-family: var(--font-ui-sans);
+}
+
+/* Precision developer-grade monospace with tabular figures and slashed zero */
+code,
+kbd,
+samp,
+pre,
+.font-mono {
+  font-family: var(--font-mono-data);
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+  font-variant-numeric: tabular-nums slashed-zero;
 }
 
 .tabular-nums {
   font-feature-settings: 'tnum' 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Editorial utility classes for explicit tagging */
+.font-editorial {
+  font-family: var(--font-editorial);
+}
+
+.font-ui {
+  font-family: var(--font-ui-sans);
 }
 
 :focus-visible {
