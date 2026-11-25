@@ -4,6 +4,8 @@
 
 Start with the [first report](docs/first-report/README.md) for the results and their limits. The [methodology](docs/METHODOLOGY.md) explains how the benchmark counts outcomes and calculates its statistics. An IP probe reports the address seen by that probe, not necessarily the address seen by Google Maps.
 
+See [publishing instructions](docs/PUBLISHING.md) to add a reviewed run to the dashboard or deploy a UI change.
+
 ## Verify offline
 
 To check the published results, run `python3 docs/first-report/verify.py`. The verifier needs no dependencies or credentials.
