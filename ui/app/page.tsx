@@ -587,7 +587,7 @@ export default function BenchmarkPage() {
 
               <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-[#5a5e6b]">
                 <span>Evidence data</span>
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 [overflow-wrap:anywhere]">
                   <a
                     href={MANIFEST_URL}
                     target="_blank"
