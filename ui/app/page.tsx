@@ -225,9 +225,9 @@ export default function BenchmarkPage() {
             </span>
           </div>
 
-          <nav className="flex items-center gap-4 text-xs text-[#8a8f9c]">
+          <nav className="flex min-w-0 max-w-full flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[#8a8f9c]">
             {manifest?.runs && manifest.runs.length > 0 && (
-              <div className="flex items-center gap-1.5">
+              <div className="flex min-w-0 max-w-full items-center gap-1.5">
                 <label htmlFor="run-select" className="sr-only">
                   Select benchmark run
                 </label>
@@ -235,7 +235,7 @@ export default function BenchmarkPage() {
                   id="run-select"
                   value={selectedRunId || ''}
                   onChange={(e) => setSelectedRunId(e.target.value)}
-                  className="bg-[#17181c] border border-[#262930] text-[#eeeff2] text-xs rounded px-2 py-1 focus:border-[#3b82f6] outline-none"
+                  className="min-w-0 max-w-full bg-[#17181c] border border-[#262930] text-[#eeeff2] text-xs rounded px-2 py-1 focus:border-[#3b82f6] outline-none"
                 >
                   {manifest.runs.map((r) => (
                     <option key={r.id} value={r.id}>
