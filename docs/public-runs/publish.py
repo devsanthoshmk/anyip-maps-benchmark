@@ -22,6 +22,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("analysis", type=Path)
     parser.add_argument("title")
+    parser.add_argument("--number", type=int, required=True, help="Unique positive benchmark number")
     parser.add_argument("--account-usage-delta-bytes", type=int)
     args = parser.parse_args()
     src = json.loads(args.analysis.read_text())
@@ -40,9 +41,11 @@ def main():
     folder = Path(__file__).parent
     index = folder / "index.json"
     runs = json.loads(index.read_text())["runs"] if index.exists() else []
+    if args.number < 1 or any(row.get("number") == args.number and row["id"] != run_id for row in runs):
+        parser.error("Benchmark number must be positive and unique")
     path = run_id + ".json"
     for file, data in ((folder / path, result), (index, {"runs": [
-        {"id": run_id, "title": args.title, "path": path}, *[row for row in runs if row["id"] != run_id],
+        {"id": run_id, "title": args.title, "path": path, "number": args.number}, *[row for row in runs if row["id"] != run_id],
     ]})):
         file.write_text(json.dumps(data, indent=2, allow_nan=False) + "\n")
 

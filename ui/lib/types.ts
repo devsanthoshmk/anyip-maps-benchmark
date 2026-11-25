@@ -1,4 +1,5 @@
 export interface RunIndexItem {
+  number?: number;
   id: string;
   title: string;
   path: string;

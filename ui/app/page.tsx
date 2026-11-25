@@ -226,7 +226,7 @@ export default function BenchmarkPage() {
           </div>
 
           <nav className="flex items-center gap-4 text-xs text-[#8a8f9c]">
-            {manifest?.runs && manifest.runs.length > 1 && (
+            {manifest?.runs && manifest.runs.length > 0 && (
               <div className="flex items-center gap-1.5">
                 <label htmlFor="run-select" className="sr-only">
                   Select benchmark run
@@ -239,7 +239,7 @@ export default function BenchmarkPage() {
                 >
                   {manifest.runs.map((r) => (
                     <option key={r.id} value={r.id}>
-                      {r.title || r.id}
+                      {r.number ? `Benchmark ${r.number}: ` : ''}{r.title || r.id}
                     </option>
                   ))}
                 </select>
