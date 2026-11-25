@@ -23,6 +23,8 @@ _archived/
 .pytest_cache/
 node_modules/
 .next/
+ui/out/
+.wrangler/
 *.tsbuildinfo
 
 # macOS

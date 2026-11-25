@@ -1,0 +1,71 @@
+{
+  "run_id": "residential_first_20261121_192713",
+  "elapsed_s": 557.96,
+  "totals": {
+    "total_queries": 100,
+    "successful_queries": 85,
+    "total_places": 3489,
+    "total_requests": 294,
+    "ok_requests": 284,
+    "consent_requests": 0,
+    "block_403": 0,
+    "block_429": 0,
+    "traffic_mb_wire": 17.953
+  },
+  "by_country": {
+    "IN": {
+      "queries": 50,
+      "successful_queries": 44,
+      "places": 1758,
+      "avg_latency_ms": 1831.4,
+      "consent": 0,
+      "403": 0,
+      "429": 0,
+      "soft_block": 0,
+      "proxy_error": 0,
+      "ip_matched_queries": 47,
+      "ip_changed_queries": 1,
+      "ip_unknown_queries": 2,
+      "traffic_mb": 8.935
+    },
+    "US": {
+      "queries": 50,
+      "successful_queries": 41,
+      "places": 1731,
+      "avg_latency_ms": 1499.5,
+      "consent": 0,
+      "403": 0,
+      "429": 0,
+      "soft_block": 5,
+      "proxy_error": 0,
+      "ip_matched_queries": 49,
+      "ip_changed_queries": 0,
+      "ip_unknown_queries": 1,
+      "traffic_mb": 9.019
+    }
+  },
+  "variance": {
+    "by_pair_type": {
+      "new_ip": {
+        "n_pairs": 30,
+        "jaccard_20_mean": 0.6413,
+        "jaccard_40_mean": 0.6624,
+        "rbo_mean": 0.705,
+        "kendall_tau_mean": 0.6993
+      },
+      "same_ip": {
+        "n_pairs": 13,
+        "jaccard_20_mean": 0.8385,
+        "jaccard_40_mean": 0.8496,
+        "rbo_mean": 0.87,
+        "kendall_tau_mean": 0.8377
+      }
+    }
+  },
+  "sticky_continuity": {
+    "query_ip_matched": 96,
+    "query_ip_rotated": 1,
+    "query_ip_unknown": 3
+  },
+  "account_usage_delta_bytes": 22069790
+}
